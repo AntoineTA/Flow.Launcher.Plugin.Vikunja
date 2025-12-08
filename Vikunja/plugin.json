@@ -1,0 +1,13 @@
+{
+  "$schema": "https://www.flowlauncher.com/schemas/plugin.schema.json",
+  "ID": "b8f47b3c-9f7d-4e42-a8c6-5d1e2f3a4b5c",
+  "ActionKeywords": ["vk"],
+  "Name": "Vikunja",
+  "Description": "Quickly add tasks to Vikunja with natural language parsing",
+  "Author": "AntoineTA",
+  "Version": "1.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/AntoineTA/Flow.Launcher.Plugin.Vikunja",
+  "IcoPath": "icon.png",
+  "ExecuteFileName": "Flow.Launcher.Plugin.Vikunja.dll"
+}

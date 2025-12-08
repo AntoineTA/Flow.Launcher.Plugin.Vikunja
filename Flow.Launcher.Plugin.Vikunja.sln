@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vikunja", "Vikunja\Vikunja.csproj", "{38695047-E07A-F97A-98C9-93D1DFC899A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vikunja.Tests", "Vikunja.Tests\Vikunja.Tests.csproj", "{B8F47B3C-9F7D-4E42-A8C6-5D1E2F3A4B5C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38695047-E07A-F97A-98C9-93D1DFC899A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38695047-E07A-F97A-98C9-93D1DFC899A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38695047-E07A-F97A-98C9-93D1DFC899A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38695047-E07A-F97A-98C9-93D1DFC899A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F47B3C-9F7D-4E42-A8C6-5D1E2F3A4B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F47B3C-9F7D-4E42-A8C6-5D1E2F3A4B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F47B3C-9F7D-4E42-A8C6-5D1E2F3A4B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F47B3C-9F7D-4E42-A8C6-5D1E2F3A4B5C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5223C61-E637-4F8C-8A49-14BFFE3CFB8E}
+	EndGlobalSection
+EndGlobal
