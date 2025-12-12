@@ -121,7 +121,7 @@ Start-Sleep -Seconds 2
 $pluginDir = "$env:APPDATA\FlowLauncher\Plugins\Vikunja"
 if (Test-Path $pluginDir) { Remove-Item -Path $pluginDir -Recurse -Force }
 New-Item -ItemType Directory -Path $pluginDir -Force | Out-Null
-Copy-Item -Path "Vikunja\bin\Release\net7.0-windows\*" -Destination $pluginDir -Recurse -Force
+Copy-Item -Path "Vikunja\bin\Release\net9.0-windows\*" -Destination $pluginDir -Recurse -Force
 Start-Process -FilePath "$env:LOCALAPPDATA\FlowLauncher\Flow.Launcher.exe"
 ```
 
