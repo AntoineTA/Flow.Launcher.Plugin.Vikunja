@@ -1,26 +1,69 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Flow.Launcher.Plugin;
+using Microsoft.Win32;
 
 namespace Flow.Launcher.Plugin.Vikunja
 {
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     public partial class SettingsPanel : UserControl
     {
         private readonly PluginInitContext _context;
         private readonly Settings _settings;
+        private readonly bool _isDarkMode;
+        private readonly SolidColorBrush _backgroundColor;
+        private readonly SolidColorBrush _foregroundColor;
+        private readonly SolidColorBrush _secondaryForegroundColor;
+        private readonly SolidColorBrush _accentColor;
 
         public SettingsPanel(PluginInitContext context, Settings settings)
         {
             _context = context;
             _settings = settings;
+            
+            // Detect dark mode from Windows settings
+            _isDarkMode = IsWindowsInDarkMode();
+            
+            // Set colors to match Flow Launcher's theme
+            if (_isDarkMode)
+            {
+                _backgroundColor = new SolidColorBrush(Color.FromRgb(42, 42, 42));
+                _foregroundColor = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                _secondaryForegroundColor = new SolidColorBrush(Color.FromRgb(136, 136, 136));
+                _accentColor = new SolidColorBrush(Color.FromRgb(91, 155, 213));
+            }
+            else
+            {
+                _backgroundColor = Brushes.White;
+                _foregroundColor = Brushes.Black;
+                _secondaryForegroundColor = Brushes.Gray;
+                _accentColor = Brushes.DarkBlue;
+            }
+            
             InitializeComponent();
             LoadSettings();
         }
 
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+        private bool IsWindowsInDarkMode()
+        {
+            try
+            {
+                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+                var value = key?.GetValue("AppsUseLightTheme");
+                return value is int i && i == 0;
+            }
+            catch
+            {
+                return false; // Default to light mode if we can't detect
+            }
+        }
+
         private void InitializeComponent()
         {
-            this.Background = System.Windows.Media.Brushes.White;
+            this.Background = _backgroundColor;
             
             var stackPanel = new StackPanel
             {
@@ -34,7 +77,8 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Content = "Server URL:",
                 FontWeight = FontWeights.SemiBold,
                 Margin = new Thickness(0, 0, 0, 5),
-                Padding = new Thickness(0)
+                Padding = new Thickness(0),
+                Foreground = _foregroundColor
             });
             
             var serverUrlTextBox = new TextBox 
@@ -43,7 +87,10 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Height = 25,
                 Width = 400,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new Thickness(0, 0, 0, 5)
+                Margin = new Thickness(0, 0, 0, 5),
+                Background = _isDarkMode ? new SolidColorBrush(Color.FromRgb(51, 51, 51)) : Brushes.White,
+                Foreground = _foregroundColor,
+                BorderBrush = _isDarkMode ? new SolidColorBrush(Color.FromRgb(70, 70, 70)) : new SolidColorBrush(Color.FromRgb(171, 173, 179))
             };
             stackPanel.Children.Add(serverUrlTextBox);
             
@@ -51,7 +98,7 @@ namespace Flow.Launcher.Plugin.Vikunja
             { 
                 Text = "The URL of your Vikunja instance (e.g., https://vikunja.example.com)",
                 FontSize = 11,
-                Foreground = System.Windows.Media.Brushes.Gray,
+                Foreground = _secondaryForegroundColor,
                 Margin = new Thickness(0, 0, 0, 15),
                 TextWrapping = TextWrapping.Wrap
             });
@@ -62,7 +109,8 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Content = "API Token:",
                 FontWeight = FontWeights.SemiBold,
                 Margin = new Thickness(0, 0, 0, 5),
-                Padding = new Thickness(0)
+                Padding = new Thickness(0),
+                Foreground = _foregroundColor
             });
             
             var apiTokenTextBox = new TextBox 
@@ -71,7 +119,10 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Height = 25,
                 Width = 400,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new Thickness(0, 0, 0, 5)
+                Margin = new Thickness(0, 0, 0, 5),
+                Background = _isDarkMode ? new SolidColorBrush(Color.FromRgb(51, 51, 51)) : Brushes.White,
+                Foreground = _foregroundColor,
+                BorderBrush = _isDarkMode ? new SolidColorBrush(Color.FromRgb(70, 70, 70)) : new SolidColorBrush(Color.FromRgb(171, 173, 179))
             };
             stackPanel.Children.Add(apiTokenTextBox);
             
@@ -79,7 +130,7 @@ namespace Flow.Launcher.Plugin.Vikunja
             { 
                 Text = "Your Vikunja API token (create one in Vikunja Settings → API Tokens)\nThis will be stored as plaintext in the user data directory, please ensure it's not publicly accessible",
                 FontSize = 11,
-                Foreground = System.Windows.Media.Brushes.Gray,
+                Foreground = _secondaryForegroundColor,
                 Margin = new Thickness(0, 0, 0, 5),
                 TextWrapping = TextWrapping.Wrap
             });
@@ -89,7 +140,7 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Text = "Required API Permissions:",
                 FontSize = 11,
                 FontWeight = FontWeights.SemiBold,
-                Foreground = System.Windows.Media.Brushes.DarkBlue,
+                Foreground = _accentColor,
                 Margin = new Thickness(0, 5, 0, 3),
                 TextWrapping = TextWrapping.Wrap
             });
@@ -98,7 +149,7 @@ namespace Flow.Launcher.Plugin.Vikunja
             { 
                 Text = "• labels: create, read all\n• projects: read all, read one\n• tasks: create\n• tasksLabels: create",
                 FontSize = 11,
-                Foreground = System.Windows.Media.Brushes.Gray,
+                Foreground = _secondaryForegroundColor,
                 Margin = new Thickness(15, 0, 0, 15),
                 TextWrapping = TextWrapping.Wrap
             });
@@ -109,7 +160,8 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Content = "Default Project ID:",
                 FontWeight = FontWeights.SemiBold,
                 Margin = new Thickness(0, 0, 0, 5),
-                Padding = new Thickness(0)
+                Padding = new Thickness(0),
+                Foreground = _foregroundColor
             });
             
             var defaultProjectTextBox = new TextBox 
@@ -118,7 +170,10 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Height = 25,
                 Width = 100,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new Thickness(0, 0, 0, 5)
+                Margin = new Thickness(0, 0, 0, 5),
+                Background = _isDarkMode ? new SolidColorBrush(Color.FromRgb(51, 51, 51)) : Brushes.White,
+                Foreground = _foregroundColor,
+                BorderBrush = _isDarkMode ? new SolidColorBrush(Color.FromRgb(70, 70, 70)) : new SolidColorBrush(Color.FromRgb(171, 173, 179))
             };
             stackPanel.Children.Add(defaultProjectTextBox);
             
@@ -126,7 +181,7 @@ namespace Flow.Launcher.Plugin.Vikunja
             { 
                 Text = "Project ID to use when no project is specified (1 = Inbox)",
                 FontSize = 11,
-                Foreground = System.Windows.Media.Brushes.Gray,
+                Foreground = _secondaryForegroundColor,
                 Margin = new Thickness(0, 0, 0, 15),
                 TextWrapping = TextWrapping.Wrap
             });
@@ -137,7 +192,8 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Content = "Parsing Mode:",
                 FontWeight = FontWeights.SemiBold,
                 Margin = new Thickness(0, 0, 0, 5),
-                Padding = new Thickness(0)
+                Padding = new Thickness(0),
+                Foreground = _foregroundColor
             });
             
             var parsingModeComboBox = new ComboBox 
@@ -146,7 +202,10 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Height = 30,
                 Width = 100,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new Thickness(0, 0, 0, 5)
+                Margin = new Thickness(0, 0, 0, 5),
+                Background = _isDarkMode ? new SolidColorBrush(Color.FromRgb(51, 51, 51)) : Brushes.White,
+                Foreground = _foregroundColor,
+                BorderBrush = _isDarkMode ? new SolidColorBrush(Color.FromRgb(70, 70, 70)) : new SolidColorBrush(Color.FromRgb(171, 173, 179))
             };
             parsingModeComboBox.Items.Add("Vikunja");
             parsingModeComboBox.Items.Add("Todoist");
@@ -156,7 +215,7 @@ namespace Flow.Launcher.Plugin.Vikunja
             { 
                 Text = "Vikunja: +project *label !priority | Todoist: #project @label p1-p3",
                 FontSize = 11,
-                Foreground = System.Windows.Media.Brushes.Gray,
+                Foreground = _secondaryForegroundColor,
                 Margin = new Thickness(0, 0, 0, 20),
                 TextWrapping = TextWrapping.Wrap
             });
@@ -168,7 +227,9 @@ namespace Flow.Launcher.Plugin.Vikunja
                 Width = 80, 
                 Height = 30,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Background = System.Windows.Media.Brushes.LightBlue
+                Background = _isDarkMode ? new SolidColorBrush(Color.FromRgb(51, 51, 51)) : new SolidColorBrush(Color.FromRgb(221, 221, 221)),
+                Foreground = _foregroundColor,
+                BorderBrush = _isDarkMode ? new SolidColorBrush(Color.FromRgb(70, 70, 70)) : new SolidColorBrush(Color.FromRgb(171, 173, 179))
             };
             saveButton.Click += SaveButton_Click;
             stackPanel.Children.Add(saveButton);

@@ -160,6 +160,7 @@ namespace Flow.Launcher.Plugin.Vikunja
             return string.Join(" | ", parts);
         }
 
+        [System.Runtime.Versioning.SupportedOSPlatform("windows")]
         public System.Windows.Controls.Control CreateSettingPanel()
         {
             return new SettingsPanel(_context!, _settings!);
