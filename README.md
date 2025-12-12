@@ -96,7 +96,7 @@ Flow.Launcher.Plugin.Vikunja/
 
 ### Prerequisites
 
-- .NET 7.0 SDK
+- .NET 9.0 SDK
 - Flow Launcher installed
 
 ### Building from Source
