@@ -24,7 +24,7 @@ jobs:
       - name: Package
         run: |
           $version = "${{ github.ref_name }}".TrimStart('v')
-          Compress-Archive -Path "Vikunja/bin/Release/net7.0-windows/*" -DestinationPath "Vikunja-$version.zip"
+          Compress-Archive -Path "Vikunja/bin/Release/net9.0-windows/*" -DestinationPath "Vikunja-$version.zip"
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
