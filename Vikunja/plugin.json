@@ -5,7 +5,7 @@
   "Name": "Vikunja",
   "Description": "Quickly add tasks to Vikunja with natural language parsing",
   "Author": "AntoineTA",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Language": "csharp",
   "Website": "https://github.com/AntoineTA/Flow.Launcher.Plugin.Vikunja",
   "IcoPath": "icon.png",
